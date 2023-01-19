@@ -1,0 +1,131 @@
+                                                      ///// Türkçe Çeviri \\\\\
+
+
+/* Buradaki kodlar push buttonu switch buttona dönüþtürmek için kullanýlýr.
+
+Bu kodlarý hatasýz kullanmak için "digitalRead(buttonun sinyal bacaðý pin numarasý)"
+buttonun sinyal bacaðýný týrnak içindeki kodla doðru baðlamak ve buttonu modül olarak 
+kullanmanýzý öneririm. 
+
+Ben bu kodlarý kullanýrken KY-004 modülünü kullandým baþka modüllerde 
+kullanabilirsiniz. Modülün uyumlu olduðunu anlamak için Signal,5V ve GND topraklama hattý 
+bulunmasý gerekmektedir.
+
+Ýsterseniz "Serial.println(ii)" kodunu silebilirsiniz.
+
+Koddan kýsaca bahsetmem gerekirse buttona bastýðým anda arduinoya 0 sinyalini iletiyor,
+publicte tanýmladýðým "int ii = 2" deðiþkenine her buttona basmamdaki sayýyý ekliyorum yani her bastýðýmda ii deðiþkenini 1 arttýrýyor.
+Sonrasýnda mantýk yürütmek gerekirse her switch i on yaptýðýmda ikinin katlarý olduðundan button hep açýk durumda oluyor eðer bir kere 
+daha basarsam ikinin katlarý olmaktan çýkýyor ve bu sayede on/off görevini yerine getirmiþ oluyor.Alt taraftaki kodlara bakarsanýz ii nin burada 
+kalanýný alýp sorguluyoruz çünkü bir sayý ikinin katý ise kalaný 0,deðilse 1 kalanýný verecektir tabi sayý tamsayý ise buradaki mantýk bu þekilde
+iþlemektedir.Ýlk baþta publicte neden "ii = 2" olarak tanýmladýk çünkü burada ii deðerini belirlemeseydik button dan gelecek 0 deðeri ile yola çýkardý
+yani  yazdýðýmýz koda göre devremiz ne açýk ne kapalý olurdu mantýk hatasý olmamasý için 1 dahil 1 den düþük sayýlardan baþlatmamanýzý öneririm.
+
+"Delay" komutunu kullanmamdaki amaç button a bastýðýmda arduino bunu 1 kere bastý deðilde 100 kere ya da 1000 kere bastý olarak 
+algýlar (o süre zarfýnda tabiki) o yüzden delay eklemek þart ve projelerinize göre delayýn süresini düþürebilirsiniz.
+
+begnn adlý deðiþkeni kullanmamýn sebebi projem ile alakalý.
+
+Author by SQFOX(Serkan9748) :D  *\
+
+                                                       ///// English Translation \\\\\
+         
+
+/* The codes here are used to convert a push button to a switch button.
+
+To use these codes without error, "digitalRead(button's signal leg pin number)"
+Connecting the signal leg of the button with the code in quotes correctly and using the button as a module.
+I suggest you use it.
+
+While using these codes, I used the KY-004 module in other modules.
+you can use. Signal,5V and GND ground line to understand that the module is compatible.
+must exist.
+
+You can delete the "Serial.println(ii)" code if you want.
+
+If I need to talk about the code briefly, when I press the button, it transmits the 0 signal to the arduino,
+I add the number of every button press to the "int ii = 2" variable that I define in public, so every time I press it, it increases the ii variable by 1.
+Afterwards, if we need to reason, every time I make a switch on, the button is always on because it is a multiple of two.
+If I press more, it ceases to be a multiple of two and thus fulfills its on/off task. If you look at the codes below, ii is here.
+We take the remainder and interrogate it because if a number is a multiple of 2, the remainder will give the remainder 0, otherwise 1, of course, if the number is an integer, this is the logic here.
+Why did we define it as "ii = 2" in public at first because if we did not specify the value of ii here, it would set off with the value 0 from the button.
+In other words, according to the code we wrote, our circuit would be neither open nor closed. I recommend that you do not start from numbers lower than 1, including 1, so that there is no logic error.
+
+The purpose of using the "delay" command is that when I pressed the button, the arduino pressed it not once, but 100 times or 1000 times.
+(during that time, of course) so adding a delay is a must and you can reduce the delay time according to your projects.
+
+The reason I use the variable named begnn is related to my project.
+Author by SQFOX(Serkan9748) :D *\
+Codes (Kodlar)
+--------------------------------------------------------------------------------------------------------------------------------------
+int ii;
+boolean begnn;
+void setup(){
+ Serial.begin(9600);
+ pinMode(10,OUTPUT);
+ pinMode(11,OUTPUT);
+ pinMode(9,INPUT);
+}
+void loop(){
+
+}
+void buttons() {
+  if (digitalRead(9) == 0)
+  {
+    ii = ii + 1;
+  }
+  else
+  {
+    ii = ii;
+  }
+  Serial.println(ii);
+  delay(400);
+  if (ii % 2 == 0)
+  {
+    digitalWrite(10, HIGH);
+    digitalWrite(11, LOW);
+    begnn = true;
+  }
+  if (ii % 2 == 1) {
+    digitalWrite(11, HIGH);
+    digitalWrite(10, LOW);
+    begnn = false;
+  }
+  delay(300);
+}
+--------------------------------------------------------------------------------------------------------------------------------------
+
+The part that I didn't get from my project, that is pure codes(Projemden almadýðým kýsým yani saf kodlar)
+
+--------------------------------------------------------------------------------------------------------------------------------------
+int ii;
+
+void setup(){
+pinMode(9,INPUT); //the signal of the push button, which is the module wired (modül olan push buttonun sinyal teline baðlý)
+Serial.begin(9600);
+}
+
+void loop(){
+
+}
+void buttons() {
+  if (digitalRead(9) == 0)
+  {
+    ii = ii + 1;
+  }
+  else
+  {
+    ii = ii;
+  }
+  delay(400);
+  if (ii % 2 == 0)
+  {
+    Serial.println("On"); // Switch On
+  }
+  if (ii % 2 == 1) {
+    Serial.println("Off"); // Switch Off
+  }
+  delay(300);
+}
+--------------------------------------------------------------------------------------------------------------------------------------
+
