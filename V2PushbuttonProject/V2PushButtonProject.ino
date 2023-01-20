@@ -10,15 +10,15 @@ digitalWrite(13,HIGH);//(Burada kodu geliştirmek için yanıma breadboard almad
 }
 
 void loop(){
-buttons();
+buttons(12); //Adjust it according to you here, that is, write the pin number of the button where the signal leg is located.(Buradan kendinize göre ayarlayın yani butonun sinyal bacağı nerede ise oranın pin numarasını yazın.)
 }
-void buttons() {
-  if (digitalRead(12) == 0 && clickEvent == 0)
+void buttons(int pin) {
+  if (digitalRead(pin) == 0 && clickEvent == 0)
   {
     ii = ii + 1;
     clickEvent = clickEvent + 1;
   }
-  if(digitalRead(12) == 1 && clickEvent >= 1)
+  if(digitalRead(pin) == 1 && clickEvent >= 1)
   {
     clickEvent = 0;
     ii = ii;
