@@ -1,0 +1,117 @@
+                                                      ///// Türkçe Çeviri \\\\\
+*V1 Notes*
+
+Buradaki kodlar push buttonu switch buttona dönüştürmek için kullanılır.
+
+Bu kodları hatasız kullanmak için "digitalRead(buttonun sinyal bacağı pin numarası)"
+buttonun sinyal bacağını tırnak içindeki kodla doğru bağlamak ve buttonu modül olarak 
+kullanmanızı öneririm. 
+
+Ben bu kodları kullanırken KY-004 modülünü kullandım başka modüllerde 
+kullanabilirsiniz. Modülün uyumlu olduğunu anlamak için Signal,5V ve GND topraklama hattı 
+bulunması gerekmektedir.
+
+İsterseniz "Serial.println(ii)" kodunu silebilirsiniz.
+
+Koddan kısaca bahsetmem gerekirse buttona bastığım anda arduinoya 0 sinyalini iletiyor,
+publicte tanımladığım "int ii = 2" değişkenine her buttona basmamdaki sayıyı ekliyorum yani her bastığımda ii değişkenini 1 arttırıyor.
+Sonrasında mantık yürütmek gerekirse her switch i on yaptığımda ikinin katları olduğundan button hep açık durumda oluyor eğer bir kere 
+daha basarsam ikinin katları olmaktan çıkıyor ve bu sayede on/off görevini yerine getirmiş oluyor.Alt taraftaki kodlara bakarsanız ii nin burada 
+kalanını alıp sorguluyoruz çünkü bir sayı ikinin katı ise kalanı 0,değilse 1 kalanını verecektir tabi sayı tamsayı ise buradaki mantık bu şekilde
+işlemektedir.İlk başta publicte neden "ii = 2" olarak tanımladık çünkü burada ii değerini belirlemeseydik button dan gelecek 0 değeri ile yola çıkardı
+yani  yazdığımız koda göre devremiz ne açık ne kapalı olurdu mantık hatası olmaması için 1 dahil 1 den düşük sayılardan başlatmamanızı öneririm.
+
+"Delay" komutunu kullanmamdaki amaç button a bastığımda arduino bunu 1 kere bastı değilde 100 kere ya da 1000 kere bastı olarak 
+algılar (o süre zarfında tabiki) o yüzden delay eklemek şart ve projelerinize göre delayın süresini düşürebilirsiniz.
+
+begnn adlı değişkeni kullanmamın sebebi projem ile alakalı.
+
+Author by SQFOX(Serkan9748) :D  
+
+                                                       ///// English Translation \\\\\
+         
+
+ The codes here are used to convert a push button to a switch button.
+
+To use these codes without error, "digitalRead(button's signal leg pin number)"
+Connecting the signal leg of the button with the code in quotes correctly and using the button as a module.
+I suggest you use it.
+
+While using these codes, I used the KY-004 module in other modules.
+you can use. Signal,5V and GND ground line to understand that the module is compatible.
+must exist.
+
+You can delete the "Serial.println(ii)" code if you want.
+
+If I need to talk about the code briefly, when I press the button, it transmits the 0 signal to the arduino,
+I add the number of every button press to the "int ii = 2" variable that I define in public, so every time I press it, it increases the ii variable by 1.
+Afterwards, if we need to reason, every time I make a switch on, the button is always on because it is a multiple of two.
+If I press more, it ceases to be a multiple of two and thus fulfills its on/off task. If you look at the codes below, ii is here.
+We take the remainder and interrogate it because if a number is a multiple of 2, the remainder will give the remainder 0, otherwise 1, of course, if the number is an integer, this is the logic here.
+Why did we define it as "ii = 2" in public at first because if we did not specify the value of ii here, it would set off with the value 0 from the button.
+In other words, according to the code we wrote, our circuit would be neither open nor closed. I recommend that you do not start from numbers lower than 1, including 1, so that there is no logic error.
+
+The purpose of using the "delay" command is that when I pressed the button, the arduino pressed it not once, but 100 times or 1000 times.
+(during that time, of course) so adding a delay is a must and you can reduce the delay time according to your projects.
+
+The reason I use the variable named begnn is related to my project.
+Author by SQFOX(Serkan9748) :D 
+
+-------------------------------------------------------------------------------------------------------------------------------------
+*V2 Notes*
+
+                                                                       ///// English Translation \\\\\
+
+The bugs that have been resolved as V2 notes are:
+1-When we hold the button for a long time, it always gives the value of 1 and 0. 
+In the old code, when we hold it down, it prints the value 101010101010 all the time, and I even support it with delay. 
+If the part you pressed coincides with the delay, it wouldn't detect it. I solved this problem and now it has become a switch button in general.
+
+                                                                  ///// Türkçe Çeviri \\\\\
+
+V2 notları olarak çözülen buglar şunlar :
+1-Buttona uzun süre basılı tuttuğumuzda sürekli aç kapa yani sürekli 1 ve 0 değerini veriyordu ama artık uzun süre basılı tuttuğumuzda bir sonraki durum neyse ona geçiyor .
+Örnek vericek olursak 1 değerinde iken basılı tuttuğumuzda 0 değerini veriyor ve sürekli 0 elimizi çekip tekrar bastığımızda 0 dan 1 e geçiyor eski kodda ise basılı tuttuğumuzda 
+101010101010 değerini sürekli yazdırıyordu hatta delay ile de desteklyordum eğer bastığınız kısım delay a denk gelirse algılamıyordu bu sorunu çözdüm ve artık tam genel anlamıyla switch button oldu.
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+The part that I didn't get from my project, that is pure codes(Projemden almadığım kısım yani saf kodlar)
+
+--------------------------------------------------------------------------------------------------------------------------------------
+int ii = 2;
+int clickEvent = 0;
+
+void setup(){
+pinMode(12,INPUT); //the signal of the push button, which is the module wired (modül olan push buttonun sinyal teline bağlı)
+Serial.begin(9600);
+pinMode(13,OUTPUT); //I didn't take a breadboard with me to develop the code here, so I made the 5V pin on the 13th leg, you can delete the codes that say digitalWrite and pinMode(13,HIGH).
+digitalWrite(13,HIGH);//(Burada kodu geliştirmek için yanıma breadboard almadım o yüzden 13 numaralı bacağı 5V pini yaptım siz digitalWrite ve pinMode(13,HIGH) yazan kodları silebilirsiniz.)
+
+}
+
+void loop(){
+buttons();
+}
+void buttons() {
+  if (digitalRead(12) == 0 && clickEvent == 0)
+  {
+    ii = ii + 1;
+    clickEvent = clickEvent + 1;
+  }
+  if(digitalRead(12) == 1 && clickEvent >= 1)
+  {
+    clickEvent = 0;
+    ii = ii;
+  }
+  if (ii % 2 == 0)
+  {
+    Serial.println("On"); // Switch On
+  }
+  if (ii % 2 == 1) {
+    Serial.println("Off"); // Switch Off
+  }
+  }
+--------------------------------------------------------------------------------------------------------------------------------------
